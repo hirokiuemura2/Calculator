@@ -1,0 +1,16 @@
+.centerText {
+    text-align: center;
+}
+.row {
+    display: flex;
+    width: 500px;
+    justify-content: center;
+    align-self: center;
+    margin: auto;
+}
+button {
+    width: 100px;
+    height: 65px;
+    border-radius: 10px;
+    background-color: lightblue;
+}
