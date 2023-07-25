@@ -8,20 +8,15 @@ body {
 button {
     width: 100px;
     aspect-ratio: 5 / 4;
-    flex: auto;
 }
 .buttons {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 90%;
-    justify-content: center;
+    align-items: center;
 }
 .row {
     display: flex;
-}
-.extra {
-    display: flex;
-    flex-direction: column;
 }
 .result {
     font-size: 25px;
