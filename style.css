@@ -1,16 +1,20 @@
-.centerText {
-    text-align: center;
-}
-.row {
+body {
     display: flex;
-    width: 500px;
-    justify-content: center;
-    align-self: center;
-    margin: auto;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
 }
 button {
     width: 100px;
-    height: 65px;
-    border-radius: 10px;
-    background-color: lightblue;
+    min-height: 80px;
+    flex-grow: 1;
+}
+.buttons {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.row {
+    display: flex;
+    flex-grow: 1;
 }
