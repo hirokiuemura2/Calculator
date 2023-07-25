@@ -8,6 +8,7 @@ body {
 button {
     width: 100px;
     aspect-ratio: 5 / 4;
+    font-size: 25px;
 }
 .buttons {
     display: flex;
@@ -19,7 +20,7 @@ button {
     display: flex;
 }
 .result {
-    font-size: 25px;
+    font-size: 50px;
     border: 2px;
     border-style: solid;
     border-color: black;
