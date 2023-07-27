@@ -8,6 +8,9 @@ let numbers = Array.from(document.querySelectorAll('button.number'));
 let result = document.querySelector('.result');
 numbers.forEach((number) => {
     number.addEventListener('click', function() {
+        if (result.textContent.length > 13) {
+            return;
+        }
         if (nextNewNumber) {
             outputNumber = undefined;
             nextNewNumber = false;
@@ -47,29 +50,60 @@ operators.forEach((button) => {
 
 let allConditionsFilled = () => {
     return (number1 !== undefined && number2 !== undefined && operation !== undefined);
-}
+};
 let computeEquation = () => {
+    let decimals = countDecimals(number1, number2);
+    number1 = number1 * (Math.pow(10, decimals));
+    number2 = number2 * (Math.pow(10, decimals));
+    console.log(number1);
+    console.log(number2);
     switch (operation) {
         case '+':
-            return Number(number1) + Number(number2);
+            return (Number(number1) + Number(number2)) / (Math.pow(10, decimals));
             break;
         case '–':
-            return Number(number1) - Number(number2);
+            return Number(number1) - Number(number2) / (Math.pow(10, decimals));
             break;
         case 'X':
-            return Number(number1) * Number(number2);
+            let product = '' +  Number(number1) * Number(number2) / (Math.pow(10, decimals * 2));
+            product = product.substring(0,14);
+            return product;
             break;
         case '÷':
-            return Number(number1) / Number(number2);
+            let quotient = '' + (Number(number1) / Number(number2));
+            quotient = quotient.substring(0,14);
+            return quotient;
             break;
         case '^':
-            return Number(number1) ** Number(number2);
+            number2 = number2 / Math.pow(10,decimals);
+            number1 = number1 / Math.pow(10,decimals);
+            number1 *= Math.pow(10,decimals = countDecimals(0,number1));
+            let power = '' + (Number(number1) ** Number(number2)) / (Math.pow(10, decimals * number2));
+            power = power.substring(0,14);
+            if (power.charAt(power.length-1) === '.') {
+                power = power.substring(0,power.length - 1);
+            }
+            return power;
             break;
         case 'Mod':
-            return Number(number1) % Number(number2);
+            return Number(number1) % Number(number2) / (Math.pow(10, decimals));
             break;
     }
 }
+
+let countDecimals = (x, z) => {
+    let decOne = 0;
+    let decTwo = 0;
+    x = '' + x;
+    z = '' + z;
+    if (x.indexOf('.') !== -1) {
+        decOne = x.length - x.indexOf('.') - 1;
+    }
+    if (z.indexOf('.') !== -1) {
+        decTwo = z.length - z.indexOf('.') - 1;
+    }
+    return (decOne > decTwo) ? decOne : decTwo;
+};
 
 let actions = Array.from(document.querySelectorAll('.action'));
 actions.forEach((button) => {
@@ -83,6 +117,7 @@ actions.forEach((button) => {
                 if (operation === undefined) {
                     outputNumber *= -1;
                     result.textContent = outputNumber;
+                    outputNumber = '' + outputNumber;
                     break;
                 }
             case '%':
@@ -109,6 +144,10 @@ actions.forEach((button) => {
                 else if (!nextNewNumber) {
                     outputNumber = outputNumber.substring(0,outputNumber.length-1);
                     result.textContent = outputNumber;
+                    if (outputNumber.length === 0) {
+                        result.textContent = '0';
+                        outputNumber = undefined;
+                    }
                 }
                 break;
             case 'Clr':
