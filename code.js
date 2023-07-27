@@ -35,6 +35,26 @@ numbers.forEach((number) => {
     });
 });
 
+window.addEventListener('keydown', (e) => {
+    let letter = e.key;
+    if(!isNaN(parseInt(letter))) {
+        let num = (letter == 0) ? 9 : +(letter) - 1;
+        numbers[num].click();
+    }
+    else if (letter === '.') {
+        let respectiveButton = document.querySelector('.dot');
+        respectiveButton.click();
+    }
+    else if (letter === 'Enter') {
+        let respectiveButton = document.querySelector('.enter');
+        respectiveButton.click();
+    }
+    else if (letter === '-') {
+        let respectiveButton = document.querySelector('.minus');
+        respectiveButton.click();
+    }
+});
+
 let operators = Array.from(document.querySelectorAll('.operator'));
 let operationBox = document.querySelector('.operation');
 operators.forEach((button) => {
@@ -55,8 +75,6 @@ let computeEquation = () => {
     let decimals = countDecimals(number1, number2);
     number1 = number1 * (Math.pow(10, decimals));
     number2 = number2 * (Math.pow(10, decimals));
-    console.log(number1);
-    console.log(number2);
     switch (operation) {
         case '+':
             return (Number(number1) + Number(number2)) / (Math.pow(10, decimals));
