@@ -159,7 +159,7 @@ actions.forEach((button) => {
                     break;
                 }
             case '%':
-                if (operation === undefined) {
+                if (operation === undefined && result.textContent != 'Error' && result.textContent != 'NaN') {
                     outputNumber /= 100;
                     result.textContent = outputNumber;
                 }
