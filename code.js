@@ -65,13 +65,23 @@ operators.forEach((button) => {
             nextNewNumber = true;
             operationBox.textContent = operation;
         }
+        else if (number1 != undefined && outputNumber != undefined) {
+            let temp = computeEquation();
+            reset();
+            operation = button.textContent;
+            operationBox.textContent = operation;
+            number1 = temp;
+            outputNumber = temp;
+            result.textContent = outputNumber;
+            nextNewNumber = true;
+        }
     });
 });
 
 let allConditionsFilled = () => {
     return (number1 !== undefined && number2 !== undefined && operation !== undefined);
 };
-let computeEquation = () => {
+let computeEquation = function() {
     let decimals = countDecimals(number1, number2);
     number1 = number1 * (Math.pow(10, decimals));
     number2 = number2 * (Math.pow(10, decimals));
@@ -80,10 +90,10 @@ let computeEquation = () => {
             return (Number(number1) + Number(number2)) / (Math.pow(10, decimals));
             break;
         case '–':
-            return Number(number1) - Number(number2) / (Math.pow(10, decimals));
+            return (Number(number1) - Number(number2)) / (Math.pow(10, decimals));
             break;
         case 'X':
-            let product = '' +  Number(number1) * Number(number2) / (Math.pow(10, decimals * 2));
+            let product = '' +  (Number(number1) * Number(number2)) / (Math.pow(10, decimals * 2));
             product = product.substring(0,14);
             return product;
             break;
@@ -104,7 +114,7 @@ let computeEquation = () => {
             return power;
             break;
         case 'Mod':
-            return Number(number1) % Number(number2) / (Math.pow(10, decimals));
+            return (Number(number1) % Number(number2)) / (Math.pow(10, decimals));
             break;
     }
 }

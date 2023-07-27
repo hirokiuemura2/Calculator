@@ -19,6 +19,12 @@ button {
     width: 90%;
     align-items: center;
 }
+button.operator {
+    background-color: lightblue;
+}
+button.number {
+    background-color: lightgray;
+}
 .row {
     display: flex;
 }
