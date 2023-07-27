@@ -8,12 +8,12 @@ let numbers = Array.from(document.querySelectorAll('button.number'));
 let result = document.querySelector('.result');
 numbers.forEach((number) => {
     number.addEventListener('click', function() {
-        if (result.textContent.length > 13) {
-            return;
-        }
         if (nextNewNumber) {
             outputNumber = undefined;
             nextNewNumber = false;
+        }
+        else if (result.textContent.length > 13) {
+            return;
         }
         let newText = number.textContent;
         if (newText === '(-)') {
@@ -53,6 +53,12 @@ window.addEventListener('keydown', (e) => {
         let respectiveButton = document.querySelector('.minus');
         respectiveButton.click();
     }
+    else if (letter === 'Backspace') {
+        let respectiveButton = document.querySelector('.delete');
+        if (respectiveButton != undefined) {
+            respectiveButton.click();
+        }
+    }
 });
 
 let operators = Array.from(document.querySelectorAll('.operator'));
@@ -68,12 +74,13 @@ operators.forEach((button) => {
         else if (number1 != undefined && outputNumber != undefined) {
             let temp = computeEquation();
             reset();
-            operation = button.textContent;
-            operationBox.textContent = operation;
-            number1 = temp;
-            outputNumber = temp;
-            result.textContent = outputNumber;
-            nextNewNumber = true;
+            result.textContent = temp;
+            if (temp != 'Error' && temp != 'Infinity') {
+                operation = button.textContent;
+                operationBox.textContent = operation;
+                number1 = temp;
+                nextNewNumber = true;
+            }
         }
     });
 });
@@ -98,6 +105,9 @@ let computeEquation = function() {
             return product;
             break;
         case '÷':
+            if (number2 == 0) {
+                return 'Error';
+            }
             let quotient = '' + (Number(number1) / Number(number2));
             quotient = quotient.substring(0,14);
             return quotient;
@@ -137,7 +147,7 @@ let actions = Array.from(document.querySelectorAll('.action'));
 actions.forEach((button) => {
     button.addEventListener('click', () => {
         let action = button.textContent;
-        if (outputNumber === undefined) {
+        if (outputNumber === undefined && result.textContent !== 'Error' && result.textContent != 'NaN') {
             return;
         }
         switch(action) {
@@ -158,18 +168,22 @@ actions.forEach((button) => {
                 if (allConditionsFilled()) {
                     outputNumber = computeEquation();
                     result.textContent = outputNumber;
-                    number1 = outputNumber;
+                    number1 = (outputNumber != 'Error' ? outputNumber : undefined);
                     number2 = undefined;
                     operationBox.textContent = '';
                     operation = undefined;
                     nextNewNumber = true;
+                    if (outputNumber == 'Error' || outputNumber == 'NaN') {
+                        outputNumber = undefined;
+                    }
                 }
                 break;
             case 'Del':
-                if (operation === undefined && nextNewNumber) {
+                if (result.textContent == 'Error' || result.textContent == 'NaN') {
                     reset();
-                }
-                else if (!nextNewNumber) {
+                } else if (operation === undefined && nextNewNumber) {
+                    reset();
+                } else if (!nextNewNumber) {
                     outputNumber = outputNumber.substring(0,outputNumber.length-1);
                     result.textContent = outputNumber;
                     if (outputNumber.length === 0) {
@@ -199,11 +213,16 @@ let seconded = false;
 let secondButton = document.querySelector('.second');
 secondButton.addEventListener('click', () => {
     seconded = !seconded;
-    let deleteButton = document.querySelector('.delete');
+    let deleteButton = document.querySelector('.rm');
     let reverseButton = document.querySelector('.reverse');
     let divideButton = document.querySelector('.divide');
     let multiplyButton = document.querySelector('.multiply');
     deleteButton.textContent = seconded ? 'Clr' : 'Del';
+    if (seconded) {
+        deleteButton.classList.remove('delete')
+    } else {
+        deleteButton.classList.add('delete');
+    }
     reverseButton.textContent = seconded ? '%' : '+/–';
     divideButton.textContent = seconded ? 'Mod' : '÷'
     multiplyButton.textContent = seconded ? '^' : 'X';
