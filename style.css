@@ -12,12 +12,15 @@ button {
     width: 100px;
     aspect-ratio: 5.7 / 4;
     font-size: 25px;
+    border-radius: 10px;
 }
 .buttons {
+    margin-top: 4px;
     display: flex;
     flex-direction: column;
     width: 90%;
     align-items: center;
+    gap: 2px;
 }
 button.operator {
     background-color: lightblue;
@@ -27,6 +30,7 @@ button.number {
 }
 .row {
     display: flex;
+    gap: 2px;
 }
 .bar {
     display: flex;
@@ -42,9 +46,13 @@ button.number {
 }
 .result {
     width: 400px;
-    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 .operation {
     width: 100px;
-    border-right-width: 1px;
+    border-left-width: 1px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
